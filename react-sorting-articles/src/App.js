@@ -2,27 +2,27 @@ import React, { useState, useEffect } from 'react'
 import './App.css'
 import 'h8k-components'
 
-import Articles from './components/Articles'
+import Articles from './components/Articles.Functional.Component'
+// import Articles from './components/Articles.Class.Component.js'
+
 
 const title = 'Sorting Articles'
 
 function App({ articles }) {
-  const [flag, setFlag] = useState(true)
-  const sortedVotes = () => {
-    let res
-    articles.sort((a, b) =>
-      a.upvotes > b.upvotes ? -1 : b.upvotes > a.upvotes ? 1 : 0
-    )
-    res = articles
-    return res
+
+  const sortArticleByVotes = articles.sort((a, b) => b.upvotes - a.upvotes)
+
+  const [data, setData] = useState(sortArticleByVotes)
+  const sortedByVotes = () => {
+    const copy = [...articles]
+    const votesData = copy.sort((a, b) => b.upvotes - a.upvotes)
+    setData(votesData)
   }
-  const sortedDate = () => {
-    let res
-    articles.sort((a, b) => (a.date > b.date ? -1 : b.date > a.date ? 1 : 0))
-    res = articles
-    return res
+  const sortedByDate = () => {
+    const copy = [...articles]
+    const dateData = copy.sort((a, b) => (new Date(b.date) - new Date(a.date)))
+    setData(dateData)
   }
-  useEffect(() => {}, [flag])
   return (
     <div className='App'>
       <h8k-navbar header={title}></h8k-navbar>
@@ -33,17 +33,17 @@ function App({ articles }) {
         <button
           data-testid='most-upvoted-link'
           className='small'
-          onClick={() => setFlag(true)}>
+          onClick={() => sortedByVotes()}>
           Most Upvoted
         </button>
         <button
           data-testid='most-recent-link'
           className='small'
-          onClick={() => setFlag(false)}>
+          onClick={() => sortedByDate()}>
           Most Recent
         </button>
       </div>
-      <Articles articles={flag ? sortedVotes() : sortedDate()} />
+      <Articles articles={data}/>
     </div>
   )
 }
