@@ -1,0 +1,20 @@
+.finalText {
+    font-weight: 600;
+    text-align: center;
+    color: var(--primary-color);
+}
+
+.text-align-center {
+    text-align: center;
+}
+
+input{
+    width: 226px;
+}
+
+.elementSet {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    position: relative;
+}
